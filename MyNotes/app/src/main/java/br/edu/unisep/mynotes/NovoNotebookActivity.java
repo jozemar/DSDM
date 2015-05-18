@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import br.edu.unisep.mynotes.model.NotebookDAO;
+import br.edu.unisep.mynotes.vo.NotebookVO;
 
 
 public class NovoNotebookActivity extends Activity {
@@ -25,9 +29,28 @@ public class NovoNotebookActivity extends Activity {
         int id = item.getItemId();
 
         if (id == R.id.mn_salvar) {
+            salvar();
             return true;
         }
 
         return false;
     }
+
+    private void salvar() {
+
+        EditText txtTitulo = (EditText) findViewById(R.id.txtTitulo);
+        EditText txtDescricao = (EditText) findViewById(R.id.txtDescricao);
+
+        NotebookVO nb = new NotebookVO();
+        nb.setTitulo(txtTitulo.getText().toString());
+        nb.setDescricao(txtDescricao.getText().toString());
+
+        NotebookDAO dao = new NotebookDAO(this);
+        dao.salvar(nb);
+
+        setResult(0);
+
+        finish();
+    }
+
 }
