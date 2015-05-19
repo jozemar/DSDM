@@ -1,6 +1,5 @@
 package br.edu.unisep.mynotes;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -58,4 +57,5 @@ public class MainActivity extends ListActivity {
         adapter.changeCursor(crsNotebook);
         adapter.notifyDataSetChanged();
     }
+
 }

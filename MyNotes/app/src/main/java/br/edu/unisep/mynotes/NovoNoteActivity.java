@@ -4,6 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import br.edu.unisep.mynotes.model.NoteDAO;
+import br.edu.unisep.mynotes.model.NotebookDAO;
+import br.edu.unisep.mynotes.vo.NoteVO;
+import br.edu.unisep.mynotes.vo.NotebookVO;
 
 
 public class NovoNoteActivity extends Activity {
@@ -12,6 +18,8 @@ public class NovoNoteActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_note);
+
+        //TODO obter aqui o código do notebook!
     }
 
     @Override
@@ -25,9 +33,27 @@ public class NovoNoteActivity extends Activity {
         int id = item.getItemId();
 
         if (id == R.id.mn_salvar) {
+            salvar();
             return true;
         }
 
         return false;
+    }
+
+    private void salvar() {
+
+        EditText txtTitulo = (EditText) findViewById(R.id.txtTitulo);
+        EditText txtDescricao = (EditText) findViewById(R.id.txtDescricao);
+
+        NoteVO note = new NoteVO();
+        note.setTitulo(txtTitulo.getText().toString());
+        note.setDescricao(txtDescricao.getText().toString());
+
+        NoteDAO dao = new NoteDAO(this);
+        dao.salvar(note);
+
+        setResult(0);
+
+        finish();
     }
 }
