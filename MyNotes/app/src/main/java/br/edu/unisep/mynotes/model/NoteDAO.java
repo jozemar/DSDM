@@ -32,7 +32,7 @@ public class NoteDAO {
         valores.put("dt_criacao", hoje.getTime());
         valores.put("dt_alteracao", (Integer) null);
 
-        valores.put("notebook", note.getNotebook().getId());
+        valores.put("id_notebook", note.getNotebook().getId());
 
         db.insert("note", null, valores);
         db.close();
@@ -47,7 +47,7 @@ public class NoteDAO {
                 "descricao",
                 "dt_criacao",
                 "dt_alteracao",
-                "notebook"};
+                "id_notebook"};
 
         String[] where = { notebook.toString() };
 
@@ -73,7 +73,7 @@ public class NoteDAO {
         db.close();
     }
 
-    public NotebookVO consultar(Integer id) {
+    public NoteVO consultar(Integer id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] colunas = {"_id",
@@ -84,28 +84,52 @@ public class NoteDAO {
 
         String[] where = { id.toString() };
 
-        Cursor crs = db.query("notebook", colunas, "_id = ?", where,
+        Cursor crs = db.query("note", colunas, "_id = ?", where,
                 null, null, null);
 
-        NotebookVO notebook = new NotebookVO();
+        NoteVO note = new NoteVO();
         if (crs.moveToFirst()) {
             Integer _id = crs.getInt(crs.getColumnIndex("_id"));
-            notebook.setId(_id);
+            note.setId(_id);
 
-            String titulo = crs.getString( crs.getColumnIndex("titulo") );
-            notebook.setTitulo(titulo);
+            String titulo = crs.getString(crs.getColumnIndex("titulo"));
+            note.setTitulo(titulo);
 
-            String descricao = crs.getString( crs.getColumnIndex("descricao") );
-            notebook.setDescricao(descricao);
+            String descricao = crs.getString(crs.getColumnIndex("descricao"));
+            note.setDescricao(descricao);
 
             Long dtCriacao = crs.getLong( crs.getColumnIndex("dt_criacao") );
-            notebook.setDataCriacao( new Date(dtCriacao) );
+            note.setDataCriacao(new Date(dtCriacao));
 
-            Long dtAlteracao = crs.getLong( crs.getColumnIndex("dt_alteracao") );
-            notebook.setDataAlteracao( new Date(dtAlteracao) );
+            Long dtAlteracao = crs.getLong(crs.getColumnIndex("dt_alteracao"));
+            note.setDataAlteracao( new Date(dtAlteracao) );
+
+            Integer idNotebook = crs.getInt( crs.getColumnIndex("id_notebook"));
+            NotebookVO nb = new NotebookVO();
+            nb.setId(idNotebook);
+
+            note.setNotebook(nb);
         }
 
         db.close();
-        return notebook;
+        return note;
     }
+
+    public Integer obterQuantidadeNotas(Integer nb) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] where = { nb.toString() };
+
+        Cursor crsCount = db.rawQuery(" select count(*) from note " +
+                "where id_notebook = ?", where);
+        crsCount.moveToFirst();
+
+        Integer qtde = crsCount.getInt(0);
+
+        db.close();
+
+        return qtde;
+    }
+
 }
