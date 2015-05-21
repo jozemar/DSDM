@@ -1,6 +1,7 @@
 package br.edu.unisep.mynotes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,12 +15,16 @@ import br.edu.unisep.mynotes.vo.NotebookVO;
 
 public class NovoNoteActivity extends Activity {
 
+    private Integer idNotebook;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_note);
 
-        //TODO obter aqui o código do notebook!
+        Intent intent = getIntent();
+
+        idNotebook = intent.getIntExtra("idNotebook", 0);
     }
 
     @Override
@@ -48,6 +53,11 @@ public class NovoNoteActivity extends Activity {
         NoteVO note = new NoteVO();
         note.setTitulo(txtTitulo.getText().toString());
         note.setDescricao(txtDescricao.getText().toString());
+
+        NotebookVO nb = new NotebookVO();
+        nb.setId(idNotebook);
+
+        note.setNotebook(nb);
 
         NoteDAO dao = new NoteDAO(this);
         dao.salvar(note);

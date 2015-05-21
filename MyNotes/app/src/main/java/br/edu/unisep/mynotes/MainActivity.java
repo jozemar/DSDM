@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
 import br.edu.unisep.mynotes.adapter.NotebookAdapter;
 import br.edu.unisep.mynotes.model.NotebookDAO;
@@ -58,4 +60,11 @@ public class MainActivity extends ListActivity {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        Intent intent = new Intent(this, NotebookDetalhesActivity.class);
+        intent.putExtra("idNotebook", (int) id);
+
+        startActivityForResult(intent, 2);
+    }
 }

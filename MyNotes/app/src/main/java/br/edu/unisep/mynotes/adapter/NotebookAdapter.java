@@ -10,6 +10,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import br.edu.unisep.mynotes.R;
+import br.edu.unisep.mynotes.model.NoteDAO;
 
 /**
  * Created by roberto on 15/5/15.
@@ -40,6 +41,15 @@ public class NotebookAdapter extends CursorAdapter {
         String titulo = cursor.getString( cursor.getColumnIndex("titulo") );
         lblTitulo.setText(titulo);
 
-        lblQtdeNotas.setText("0 notas");
+        // Obtém o id do notebook para buscar a quantidade de notas do notebook
+        Integer id = cursor.getInt( cursor.getColumnIndex("_id") );
+
+        // Cria um objeto NoteDAO
+        NoteDAO dao = new NoteDAO(context);
+
+        // Obtém a quantidade de notes para o notebook atual
+        Integer qtde = dao.obterQuantidadeNotas(id);
+
+        lblQtdeNotas.setText(qtde + " nota(s)");
     }
 }

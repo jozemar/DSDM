@@ -7,9 +7,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import br.edu.unisep.mynotes.adapter.NoteAdapter;
 import br.edu.unisep.mynotes.model.NoteDAO;
+import br.edu.unisep.mynotes.model.NotebookDAO;
+import br.edu.unisep.mynotes.vo.NotebookVO;
 
 
 public class NotebookDetalhesActivity extends ListActivity {
@@ -25,7 +28,24 @@ public class NotebookDetalhesActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notebook_detalhes);
 
-        //TODO obter aqui o código do notebook!
+        // Obtém o objeto Intent que foi utilizado para a inicialização
+        // desta activity
+        Intent intent = getIntent();
+
+        // Recupera o id do notebook que foi passado como parâmetro a partir
+        // da tela anterior
+        idNotebook = intent.getIntExtra("idNotebook", 0);
+
+        NotebookDAO nbDAO = new NotebookDAO(this);
+
+        // Obtém os dados de detalhe do notebook selecionado na tela anterior
+        NotebookVO nb = nbDAO.consultar(idNotebook);
+
+        TextView lblTitulo = (TextView) findViewById(R.id.lblTitulo);
+        lblTitulo.setText(nb.getTitulo());
+
+        TextView lblDescricao = (TextView) findViewById(R.id.lblDescricao);
+        lblDescricao.setText(nb.getDescricao());
 
         dao = new NoteDAO(this);
         crsNotes = dao.listar(idNotebook);
@@ -46,8 +66,7 @@ public class NotebookDetalhesActivity extends ListActivity {
 
         if (id == R.id.mn_novo) {
             Intent i = new Intent(this, NovoNoteActivity.class);
-
-            //TODO passar aqui como parâmetro o id do notebook
+            i.putExtra("idNotebook", idNotebook);
 
             startActivityForResult(i, 1);
             return true;
