@@ -42,7 +42,7 @@ public class MyNotesOpenHelper extends SQLiteOpenHelper{
                 " descricao TEXT NOT NULL, " +
                 " dt_criacao INTEGER, " +
                 " dt_alteracao INTEGER, " +
-                " id_notebook REFERENCES notebook(_id))";
+                " id_notebook INTEGER REFERENCES notebook(_id))";
         db.execSQL(sql);
     }
 }

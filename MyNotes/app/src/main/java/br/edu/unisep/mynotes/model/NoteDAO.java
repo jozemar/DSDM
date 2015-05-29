@@ -51,8 +51,9 @@ public class NoteDAO {
 
         String[] where = { notebook.toString() };
 
-        Cursor crs = db.query("note", colunas, "_id = ?",
+        Cursor crs = db.query("note", colunas, "id_notebook = ?",
                 where, null, null, "dt_criacao");
+
         return crs;
     }
 
@@ -121,7 +122,7 @@ public class NoteDAO {
 
         String[] where = { nb.toString() };
 
-        Cursor crsCount = db.rawQuery(" select count(*) from note " +
+        Cursor crsCount = db.rawQuery("select count(_id) from note " +
                 "where id_notebook = ?", where);
         crsCount.moveToFirst();
 
