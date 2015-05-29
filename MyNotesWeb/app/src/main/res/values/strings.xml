@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MyNotes</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_novo_notebook">Novo Notebook</string>
+    <string name="titulo">Título:</string>
+    <string name="descricao">Descrição:</string>
+    <string name="title_activity_novo_note">Novo Note</string>
+    <string name="salvar">Salvar</string>
+    <string name="title_activity_notebook_detalhes">Notes</string>
+
+</resources>
