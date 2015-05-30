@@ -11,8 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.unisep.mynotes.R;
-import br.edu.unisep.mynotes.model.NoteDAO;
-import br.edu.unisep.mynotes.model.NotebookDAO;
 import br.edu.unisep.mynotes.vo.NotebookVO;
 
 
