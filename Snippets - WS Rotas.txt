@@ -1,0 +1,41 @@
+Endereço WS Rotas
+-----------------
+
+http://maps.googleapis.com/maps/api/directions/json?origin=ORIGEM_LATITUDE,ORIGEM_LONGITUDE&destination=DESTINO_LATITUDE,DESTINO_LONGITUDE&sensor=false
+
+
+Método para Leitura do Retorno do WS Rotas
+------------------------------------------
+
+    private JSONArray obterRotas(InputStreamReader reader) {
+        JSONArray steps = null;
+
+        try {
+            BufferedReader br = new BufferedReader(reader);
+
+            StringBuffer retorno = new StringBuffer();
+            String aux = null;
+            do {
+                aux = br.readLine();
+                if (retorno != null) {
+                    System.out.println(aux);
+                    retorno.append(aux);
+                }
+            } while (aux != null);
+
+            Gson gs = new Gson();
+
+            JSONObject ret = new JSONObject(retorno.toString());
+            JSONArray routes = ret.getJSONArray("routes");
+
+            JSONObject route = (JSONObject) routes.get(0);
+            JSONArray legs = route.getJSONArray("legs");
+            JSONObject leg = legs.getJSONObject(0);
+            steps = leg.getJSONArray("steps");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return steps;
+    }

@@ -8,14 +8,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.edu.unisep.mynotes.adapter.NotebookListAdapter;
+import br.edu.unisep.mynotes.task.ListaNotebookTask;
+import br.edu.unisep.mynotes.vo.NotebookVO;
+
 
 public class MainActivity extends ListActivity {
+
+    private List<NotebookVO> listaNotebook;
+
+    private NotebookListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listaNotebook = new ArrayList<NotebookVO>();
+        adapter = new NotebookListAdapter(this,
+                R.layout.item_lista_notebook, listaNotebook);
+
+        setListAdapter(adapter);
+
+        ListaNotebookTask task = new ListaNotebookTask(this);
+        task.execute();
     }
 
     @Override
@@ -39,7 +58,8 @@ public class MainActivity extends ListActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        ListaNotebookTask task = new ListaNotebookTask(this);
+        task.execute();
     }
 
     @Override
@@ -49,4 +69,12 @@ public class MainActivity extends ListActivity {
 
         startActivityForResult(intent, 2);
     }
+
+    public void atualizarLista(List<NotebookVO> lista) {
+        this.listaNotebook.clear();
+        this.listaNotebook.addAll(lista);
+
+        adapter.notifyDataSetChanged();
+    }
+
 }

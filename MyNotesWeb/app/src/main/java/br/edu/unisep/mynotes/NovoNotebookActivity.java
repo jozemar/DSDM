@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import br.edu.unisep.mynotes.task.InclusaoNotebookTask;
 import br.edu.unisep.mynotes.vo.NotebookVO;
 
 
@@ -44,9 +45,12 @@ public class NovoNotebookActivity extends Activity {
         nb.setTitulo(txtTitulo.getText().toString());
         nb.setDescricao(txtDescricao.getText().toString());
 
+        InclusaoNotebookTask task = new InclusaoNotebookTask(this);
+        task.execute(nb);
+    }
 
+    public void finalizar() {
         setResult(0);
-
         finish();
     }
 

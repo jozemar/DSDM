@@ -12,15 +12,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import br.edu.unisep.mynotes.MainActivity;
 import br.edu.unisep.mynotes.vo.NotebookVO;
 
 public class ListaNotebookTask extends AsyncTask<Void, List<NotebookVO>, Void>{
+
+    private MainActivity activity;
+
+    public ListaNotebookTask(MainActivity a) {
+        this.activity = a;
+    }
 
     @Override
     protected Void doInBackground(Void... voids) {
 
         try {
-            String ws = "http://172.16.65.15:8080/MyNotesWS/ws/notebook/listar";
+            String ws = "http://172.16.4.244:8080/MyNotesWS/ws/notebook/listar";
 
             // Representa a URL do serviço que será acessado pela task
             URL url = new URL(ws);
@@ -46,10 +53,18 @@ public class ListaNotebookTask extends AsyncTask<Void, List<NotebookVO>, Void>{
             reader.close();
             con.disconnect();
 
+            publishProgress(lista);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(List<NotebookVO>... values) {
+        List<NotebookVO> lista = values[0];
+        this.activity.atualizarLista(lista);
     }
 }
